@@ -44,7 +44,7 @@
             <input type="file" class="custom-file-input" id="photoInput" @change="onFileChange" />
             <label class="custom-file-label" for="photoInput">{{filename || "Choose file"}}</label>
           </div>
-        </div>        
+        </div>
         <div class="form-group">
           <div>
             <label for="bla">Pick Location of Event</label>
@@ -55,7 +55,11 @@
               class="btn btn-primary btn-sm"
               @click="getBrowserLocation"
             >Get Browser Location</button>
-            <button type="button" class="btn btn-secondary btn-sm">Pick Location on Map</button>
+            <button
+              type="button"
+              class="btn btn-secondary btn-sm"
+              @click="pickLocationOnMap"
+            >Pick Location on Map</button>
           </div>
           <input
             type="title"
@@ -109,6 +113,11 @@ export default {
       return x.charAt(0).toUpperCase() + x.substring(1);
     }
   },
+  mounted() {
+    this.$EventBus.$on('pick-location-on-map-result', (result) => {
+      this.event.location = result.lat_lng;
+    });
+  },
   methods: {
     onFileChange(e) {
       var file = event.target.files[0];
@@ -135,6 +144,9 @@ export default {
         },
         error => console.error(error)
       );
+    },
+    pickLocationOnMap() {
+      this.$EventBus.$emit("pick-location-on-map");
     },
     async reportEvent() {
       const { title, description, location } = this.event;

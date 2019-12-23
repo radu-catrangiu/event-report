@@ -1,6 +1,5 @@
 <template>
-  <div class="GoogleMapContainer">
-  </div>
+  <div class="GoogleMapContainer" :class="{ PointOnMap: point_to_location }"></div>
 </template>
 
 <script>
@@ -14,6 +13,7 @@ export default {
   name: "GoogleMap",
   data: function() {
     return {
+      point_to_location: false,
       map: {},
       points: {},
       mapLoaded: false
@@ -22,10 +22,13 @@ export default {
   props: [],
   async mounted() {
     /* eslint-disable */
-    // this.loadMap();
-    this.$EventBus.$on("add-point-on-map", (event) => {
+    this.loadMap();
+    this.$EventBus.$on("add-point-on-map", event => {
       console.log("Received `add-point-on-map`: ", event);
       this.points[event.id] = event;
+    });
+    this.$EventBus.$on("pick-location-on-map", () => {
+      this.point_to_location = true;
     });
   },
   methods: {
@@ -44,6 +47,19 @@ export default {
 
         map.setCenter(init.geometry.location);
         map.fitBounds(init.geometry.viewport);
+
+        map.addListener("click", e => {
+          if (this.point_to_location) {
+            const location = {
+              lat_lng: {
+                lat: e.latLng.lat(),
+                lng: e.latLng.lng()
+              }
+            };
+            this.$EventBus.$emit("pick-location-on-map-result", location);
+            this.point_to_location = false;
+          }
+        });
 
         this.mapLoaded = true;
         this.$parent.map_loaded = true;
@@ -75,5 +91,9 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.PointOnMap {
+  cursor: pointer;
 }
 </style>
