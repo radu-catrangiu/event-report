@@ -13,15 +13,30 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="loginModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="loginModalLabel">Log In</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">...</div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="emailInput">Email address</label>
+              <input type="email" class="form-control" id="emailInput" />
+            </div>
+            <div class="form-group">
+              <label for="passwordInput">Password</label>
+              <input type="password" class="form-control" id="passwordInput" />
+            </div>
+            <small
+              id="emailHelp"
+              class="form-text text-muted"
+            >We'll never share your data with anyone else.</small>
+          </form>
+        </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Understood</button>
+          <button type="button" class="btn btn-warning">Register</button>
+          <button type="button" class="btn btn-primary">Log In</button>
         </div>
       </div>
     </div>
@@ -34,7 +49,7 @@ export default {
   mounted() {
     this.$EventBus.$on("open-login-modal", () => {
       // eslint-disable-next-line
-      console.log(navigator.userAgent)
+      console.log(navigator.userAgent);
       this.$("#loginModal").modal("show");
     });
   }
