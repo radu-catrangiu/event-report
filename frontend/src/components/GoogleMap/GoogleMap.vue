@@ -16,7 +16,8 @@ export default {
       point_to_location: false,
       map: {},
       points: {},
-      mapLoaded: false
+      mapLoaded: false,
+      pointMarker: null
     };
   },
   props: [],
@@ -37,6 +38,15 @@ export default {
         event,
         marker
       };
+    });
+
+    this.$EventBus.$on("point-browser-location", location => {
+      this.pointMarker.setPosition(location);
+      this.pointMarker.setVisible(true);
+    });
+
+    this.$EventBus.$on("hide-point-marker", () => {
+      this.pointMarker.setVisible(false);
     });
 
     this.$EventBus.$on("pick-location-on-map", () => {
@@ -68,8 +78,17 @@ export default {
                 lng: e.latLng.lng()
               }
             };
+            this.pointMarker.setPosition(location.lat_lng);
+            this.pointMarker.setVisible(true);
             this.$EventBus.$emit("pick-location-on-map-result", location);
             this.point_to_location = false;
+          }
+        });
+
+        this.pointMarker = new Google.maps.Marker({
+          map: this.map,
+          icon: {
+            url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
           }
         });
 

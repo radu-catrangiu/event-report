@@ -140,6 +140,7 @@ export default {
           const { latitude, longitude } = position.coords;
           this.event.location.lat = latitude;
           this.event.location.lng = longitude;
+          this.$EventBus.$emit("point-browser-location", this.event.location);
         },
         error => console.error(error)
       );
@@ -157,6 +158,7 @@ export default {
       const result = await this.$api.post("/events", this.event);
       const storedEvent = result.data;
       this.$parent.eventsList.unshift(storedEvent);
+      this.$EventBus.$emit("hide-point-marker");
     }
   }
 };
