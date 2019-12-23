@@ -15,6 +15,9 @@ Vue.prototype.$ = $;
 Vue.prototype.$api = axios.create({
   baseURL: "http://localhost:8081/"
 });
+Vue.prototype.$authApi = axios.create({
+  baseURL: "http://localhost:8082/"
+});
 
 new Vue({
   store,

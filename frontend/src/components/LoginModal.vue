@@ -53,10 +53,20 @@ export default {
     }
   },
   methods: {
-    login() {
+    async login() {
+      const result = await this.$authApi.get('/auth/login', {
+        email: this.email,
+        password: this.password
+      });
+
+      if (result.status === 200 && result.data) {
+        const loginToken = result.data.login_token;
+        this.$cookies.set('login_token', loginToken);
+      }
+
       this.$("#loginModal").modal("hide");
     },
-    register() {
+    async register() {
 
       this.$("#loginModal").modal("hide");
     }

@@ -10,15 +10,13 @@ export default new Vuex.Store({
         user: null
     },
     mutations: {
-        setUser(state, payload) {
+        user(state, payload) {
             state.user = payload;
         }
     },
     actions: {},
     getters: {
         user(state) {
-              /* eslint-disable */
-            console.log(state); 
             return state.user;
         }
     }

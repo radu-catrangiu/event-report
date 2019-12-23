@@ -25,7 +25,6 @@ export default {
     await this.loadMap();
 
     this.$EventBus.$on("add-point-on-map", event => {
-      console.log("Received `add-point-on-map`: ", event);
       const marker = new Google.maps.Marker({
         map: this.map
       });

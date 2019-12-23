@@ -20,11 +20,14 @@ export default {
             }
         }
     },
-    mounted() {
+    async mounted() {
         this.loginToken = this.$cookies.get('login_token');
-        // if(this.loginToken) {
-
-        // }
+        if(this.loginToken) {
+            const result = await this.$authApi.get('/auth/token');
+            if (result.status === 200, result.data) {
+                this.$store.commit('user', result.data);
+            }
+        }
     },
     methods: {
         openLoginModal() {

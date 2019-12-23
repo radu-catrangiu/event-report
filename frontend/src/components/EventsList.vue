@@ -47,7 +47,7 @@ export default {
   },
   async mounted() {
     this.$store.subscribe(mutation => {
-      if (mutation.type !== "set_user") return;
+      if (mutation.type !== "user") return;
       checkUser(this);
     });
 
@@ -93,6 +93,8 @@ export default {
 
 function checkUser(self) {
   const user = self.$store.getters.user;
+  /* eslint-disable */
+  console.log(user); 
   if (!user) {
     self.adminUser = false;
     return;
