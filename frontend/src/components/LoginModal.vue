@@ -22,11 +22,11 @@
           <form>
             <div class="form-group">
               <label for="emailInput">Email address</label>
-              <input type="email" class="form-control" id="emailInput" />
+              <input type="email" class="form-control" id="emailInput" v-model="email" />
             </div>
             <div class="form-group">
               <label for="passwordInput">Password</label>
-              <input type="password" class="form-control" id="passwordInput" />
+              <input type="password" class="form-control" id="passwordInput" v-model="password" />
             </div>
             <small
               id="emailHelp"
@@ -35,8 +35,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-warning">Register</button>
-          <button type="button" class="btn btn-primary">Log In</button>
+          <button type="button" class="btn btn-warning" @click="register">Register</button>
+          <button type="button" class="btn btn-primary" @click="login">Log In</button>
         </div>
       </div>
     </div>
@@ -46,6 +46,21 @@
 <script>
 export default {
   name: "LoginModal",
+  data() {
+    return {
+      email: "",
+      password: ""
+    }
+  },
+  methods: {
+    login() {
+      this.$("#loginModal").modal("hide");
+    },
+    register() {
+
+      this.$("#loginModal").modal("hide");
+    }
+  },
   mounted() {
     this.$EventBus.$on("open-login-modal", () => {
       // eslint-disable-next-line
