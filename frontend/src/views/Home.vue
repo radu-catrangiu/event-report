@@ -1,6 +1,7 @@
 <template>
   <div class="container-fluid">
-    <Modal></Modal>
+    <LoginModal></LoginModal>
+    <ImageModal></ImageModal>
     <div class="row align-items-center">
       <div class="col text-left">
         <!-- TODO: Logo here -->
@@ -24,15 +25,17 @@
 
 <script>
 /* eslint-disable */
-import GoogleMap from "../components/GoogleMap/GoogleMap";
-import EventsList from "../components/EventsList";
-import Modal from "../components/Modal";
+import GoogleMap from "@/components/GoogleMap/GoogleMap";
+import EventsList from "@/components/EventsList";
+import LoginModal from "@/components/LoginModal";
+import ImageModal from "@/components/ImageModal";
 export default {
   name: "Home",
   components: {
     GoogleMap,
     EventsList,
-    Modal
+    LoginModal,
+    ImageModal
   }
 };
 </script>
