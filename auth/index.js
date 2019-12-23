@@ -7,8 +7,19 @@ const uuid = require('uuid').v4;
 app.use(json());
 app.use(cors());
 
-app.get('/auth', (request, response) => {
-    response.sendStatus(200);
+app.get('/auth/login', (request, response) => {
+    response.send({
+        id: uuid(),
+        admin: false,
+        login_token: uuid()
+    });
+});
+
+app.get('/auth/token', (request, response) => {
+    response.send({
+        id: uuid(),
+        admin: true
+    });
 });
 
 app.post('/auth', (request, response) => {
