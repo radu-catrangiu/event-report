@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
-    <LoginModal></LoginModal>
-    <ImageModal></ImageModal>
+    <login-modal></login-modal>
+    <image-modal></image-modal>
     <div class="row align-items-center">
       <div class="col text-left">
         <!-- TODO: Logo here -->
@@ -9,7 +9,7 @@
       </div>
       <div class="col text-right">
         <!-- TODO: Show current user or login btn -->
-        User
+        <login/>
       </div>
     </div>
     <div class="row">
@@ -29,13 +29,18 @@ import GoogleMap from "@/components/GoogleMap/GoogleMap";
 import EventsList from "@/components/EventsList";
 import LoginModal from "@/components/LoginModal";
 import ImageModal from "@/components/ImageModal";
+import Login from '@/components/Login';
 export default {
   name: "Home",
   components: {
     GoogleMap,
     EventsList,
     LoginModal,
-    ImageModal
+    ImageModal,
+    Login
+  },
+  mounted() {
+
   }
 };
 </script>
