@@ -62,6 +62,7 @@ export default {
       if (result.status === 200 && result.data) {
         const loginToken = result.data.login_token;
         this.$cookies.set('login_token', loginToken);
+        this.$store.commit('user', result.data);
       }
 
       this.$("#loginModal").modal("hide");

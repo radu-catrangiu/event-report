@@ -10,7 +10,7 @@ app.use(cors());
 app.get('/auth/login', (request, response) => {
     response.send({
         id: uuid(),
-        admin: false,
+        admin: true,
         login_token: uuid()
     });
 });
