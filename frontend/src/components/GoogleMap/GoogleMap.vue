@@ -31,6 +31,9 @@ export default {
       });
       marker.setPosition(event.location);
       marker.setVisible(true);
+      marker.addListener("click", () => {
+        this.$EventBus.$emit("marker-clicked", event);
+      });
       this.points[event.id] = {
         event,
         marker
@@ -74,7 +77,7 @@ export default {
         this.mapLoaded = true;
         this.$parent.map_loaded = true;
 
-        this.$EventBus.$emit('map-loaded');
+        this.$EventBus.$emit("map-loaded");
       } catch (error) {
         // eslint-disable-next-line
         console.debug(error);

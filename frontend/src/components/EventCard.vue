@@ -4,7 +4,11 @@
       <div class="card-body">
         <div class="row">
           <div class="col-9 text-left">
-            <span v-if="adminUser" class="text-muted text-uppercase text-monospace" style="font-size: 9px;">9b6b826c-6932-4ba4-98fb-bb9ae748f772</span>
+            <span
+              v-if="adminUser"
+              class="text-muted text-uppercase text-monospace"
+              style="font-size: 9px;"
+            >{{event.id}}</span>
           </div>
           <div class="col-3 text-right">
             <span class="badge badge-pill badge-warning">Event Tag</span>
@@ -21,8 +25,16 @@
         <p class="card-text">{{event.description}}</p>
         <div class="btn-group mb-4">
           <button class="btn btn-warning" @click="showEventImage">Show image</button>
-          <button v-if="adminUser && !event.resolved" class="btn btn-success" @click="resolveEvent">Resolve</button>
-          <button v-if="adminUser && event.resolved" class="btn btn-secondary" @click="unresolveEvent">Unresolve</button>
+          <button
+            v-if="adminUser && !event.resolved"
+            class="btn btn-success"
+            @click="resolveEvent"
+          >Resolve</button>
+          <button
+            v-if="adminUser && event.resolved"
+            class="btn btn-secondary"
+            @click="unresolveEvent"
+          >Unresolve</button>
         </div>
       </div>
     </div>
@@ -53,4 +65,7 @@ export default {
 </script>
 
 <style>
+.highlighted {
+  background-color: #fed766;
+}
 </style>
