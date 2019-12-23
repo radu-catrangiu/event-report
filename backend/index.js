@@ -10,9 +10,12 @@ app.use(cors());
 const db = [];
 for (let i = 0; i < 10; i++) {
     db.push({
-      id: "!11241" + i,
+      id: uuid(),
       title: "New event bla bla",
       resolved: Math.random() > 0.5,
+      location: {
+          lat: 44.434171620052254, lng:26.083084722016565
+      },
       description: "Something happened at bla bla and people ARE DYING!!!"
     });
 }
