@@ -92,7 +92,6 @@ export default {
   },
   data() {
     return {
-      adminUser: false,
       event: {
         title: "",
         description: "",
@@ -118,11 +117,6 @@ export default {
     this.$EventBus.$on("pick-location-on-map-result", result => {
       this.event.location = result.lat_lng;
     });
-    this.$store.subscribe(mutation => {
-      if (mutation.type !== "set_user") return;
-      checkUser(this);
-    });
-    checkUser(this);
   },
   methods: {
     onFileChange(e) {
@@ -167,15 +161,6 @@ export default {
     }
   }
 };
-
-function checkUser(self) {
-  const user = self.$store.getters.user;
-  if (!user) {
-    self.adminUser = false;
-    return;
-  }
-  self.adminUser = user.admin;
-}
 </script>
 
 <style>
