@@ -22,11 +22,21 @@ export default {
   props: [],
   async mounted() {
     /* eslint-disable */
-    this.loadMap();
+    await this.loadMap();
+
     this.$EventBus.$on("add-point-on-map", event => {
       console.log("Received `add-point-on-map`: ", event);
-      this.points[event.id] = event;
+      const marker = new Google.maps.Marker({
+        map: this.map
+      });
+      marker.setPosition(event.location);
+      marker.setVisible(true);
+      this.points[event.id] = {
+        event,
+        marker
+      };
     });
+
     this.$EventBus.$on("pick-location-on-map", () => {
       this.point_to_location = true;
     });
@@ -63,6 +73,8 @@ export default {
 
         this.mapLoaded = true;
         this.$parent.map_loaded = true;
+
+        this.$EventBus.$emit('map-loaded');
       } catch (error) {
         // eslint-disable-next-line
         console.debug(error);

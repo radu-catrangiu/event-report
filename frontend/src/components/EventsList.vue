@@ -1,16 +1,14 @@
 <template>
   <div class="events-list">
     <div>
-      <button 
+      <button
         class="btn btn-lg btn-block"
         :class="{
           'btn-danger': showList,
           'btn-warning': !showList
         }"
         @click="showList = !showList"
-      >
-        {{ showList ? "REPORT AN EVENT" : "BACK TO LIST"}}
-      </button>
+      >{{ showList ? "REPORT AN EVENT" : "BACK TO LIST"}}</button>
     </div>
     <div v-bind:hidden="showList">
       <new-event-card />
@@ -43,13 +41,17 @@ export default {
     };
   },
   async mounted() {
-    const result = await this.$api.get('/events');
-    this.eventsList.push(...result.data);
     this.$store.subscribe(mutation => {
       if (mutation.type !== "set_user") return;
       checkUser(this);
     });
+    
     checkUser(this);
+
+    this.$EventBus.$on("map-loaded", async () => {
+      const result = await this.$api.get("/events");
+      this.eventsList.push(...result.data);
+    });
   },
   methods: {}
 };

@@ -124,9 +124,7 @@ export default {
       if (!file) return;
       var reader = new FileReader();
       reader.onload = e => {
-        // console.log(e.target.result.split(','));
-        const imageData = e.target.result.split(",");
-        this.event.image = imageData[1];
+        this.event.image = e.target.result;
         this.filename = file.name;
       };
 
@@ -153,6 +151,7 @@ export default {
       const { title, description, location } = this.event;
       const { lat, lng } = location;
       if (title.length < 3 || description.length < 10 || !lat || !lng) {
+        console.log(title, description, location)
         return;
       }
       const result = await this.$api.post("/events", this.event);

@@ -13,12 +13,20 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="imageModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="imageModalLabel">{{event.title}}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">{{event}}</div>
+        <div class="modal-body text-left">
+          <!-- {{event}} -->
+          <h5>Description:</h5>
+          <p>{{event.description}}</p>
+          <h5>Report Date:</h5>
+          <p>{{event.report_date}}</p>
+          <h5>Image:</h5>
+          <img v-if="event.image" class="img-fluid" :src="event.image"/>
+        </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary">Understood</button>
