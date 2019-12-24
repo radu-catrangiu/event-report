@@ -11,7 +11,7 @@
             >{{event.id}}</span>
           </div>
           <div class="col-3 text-right">
-            <span class="badge badge-pill badge-warning">Event Tag</span>
+            <span v-if="event.tag" class="badge badge-pill badge-warning text-uppercase">{{event.tag}}</span>
           </div>
         </div>
         <h5 class="card-title">{{event.title}}</h5>
