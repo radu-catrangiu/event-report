@@ -1,7 +1,7 @@
 <template>
   <div>
       <div v-if="user">
-          <span class="mx-2">User Name</span>
+          <!-- <span class="mx-2">User Name</span> -->
           <button class="btn btn-secondary" @click="logOut">Log Out</button>
       </div>
       <div v-else>
@@ -27,7 +27,7 @@ export default {
     });
         const loginToken = this.$cookies.get('login_token');
         if(loginToken) {
-            const result = await this.$authApi.get('/auth/token');
+            const result = await this.$api.get('/auth/token');
             if (result.status === 200, result.data) {
                 this.$store.commit('user', result.data);
                 this.user = result.data;

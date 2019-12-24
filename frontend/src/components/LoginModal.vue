@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     async login() {
-      const result = await this.$authApi.get('/auth/login', {
+      const result = await this.$api.get('/auth/login', {
         email: this.email,
         password: this.password
       });
