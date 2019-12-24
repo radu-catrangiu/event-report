@@ -5,6 +5,7 @@ module.exports = {
         port: "25693",
         db: "event_report",
         user: "padawan",
-        password: "123Parola"
+        password: "123Parola",
+        collections: ['events', 'users']
     }
 };

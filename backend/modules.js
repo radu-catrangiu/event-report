@@ -9,6 +9,9 @@ function getMongoUrl(mongoConfig) {
 async function init() {
     let mongo = await MongoClient.connect(getMongoUrl(config.mongo));
     const db = mongo.db();
+    config.mongo.collections.forEach(collection => {
+        db[collection] = db.collection(collection);
+    });
     return { db };
 }
 

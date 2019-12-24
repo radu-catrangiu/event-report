@@ -8,18 +8,7 @@ const initModules = require('./modules');
 app.use(json());
 app.use(cors());
 
-const db = [];
-for (let i = 0; i < 10; i++) {
-    db.push({
-        id: uuid(),
-        title: "New event bla bla",
-        resolved: Math.random() > 0.5,
-        location: {
-            lat: 44.434171620052254, lng: 26.083084722016565
-        },
-        description: "Something happened at bla bla and people ARE DYING!!!"
-    });
-}
+let db;
 
 app.get('/auth/login', (request, response) => {
     response.send({
@@ -40,24 +29,36 @@ app.post('/auth', (request, response) => {
     response.sendStatus(200);
 });
 
-app.get('/events', (request, response) => {
+app.get('/events', async (request, response) => {
+    const events = await db.events.find().toArray();
+
     response.setHeader('content-type', 'application/json');
-    response.send(db);
+    response.send(events);
 });
 
-app.post('/events', (request, response) => {
-    const event = request.body;
-    event.id = uuid();
-    event.resolved = false;
-    event.report_date = new Date();
-    db.unshift(event);
+app.post('/events', async (request, response) => {
+    const { title, description, tag, location, image_id } = request.body;
+    const event = {
+        id: uuid(),
+        title,
+        description,
+        tag,
+        location,
+        image_id,
+        resolved: false,
+        report_date: new Date()
+    };
+
+    await db.events.insertOne(event);
+
     response.setHeader('content-type', 'application/json');
     response.send(event);
 });
 
 
 async function start() {
-
+    const modules = await initModules();
+    db = modules.db;
     app.listen(config.port, () => {
         console.log("Server started on port " + config.port);
     });
