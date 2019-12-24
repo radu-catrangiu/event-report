@@ -19,11 +19,11 @@ services:
         container_name: backend
         networks:
             - net
-    auth:
+    image-service:
         build:
-            context: ./auth/
+            context: ./image-service/
             dockerfile: Dockerfile
-        container_name: auth
+        container_name: image-service
         networks:
             - net
 
