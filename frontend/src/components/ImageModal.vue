@@ -50,7 +50,7 @@ export default {
       console.log(navigator.userAgent)
       this.event = event;
       this.$("#imageModal").modal("show");
-      this.event.image = `http://localhost:8082/image/${event.image_id}`;
+      this.event.image = `${this.$config.imgServiceApiUrl}/image/${event.image_id}`;
     });
   }
 };

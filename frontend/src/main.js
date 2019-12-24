@@ -11,6 +11,7 @@ import config from './config';
 
 Vue.config.productionTip = false
 
+Vue.prototype.$config = config;
 Vue.prototype.$EventBus = EventBus;
 Vue.prototype.$ = $;
 Vue.prototype.$api = axios.create({
