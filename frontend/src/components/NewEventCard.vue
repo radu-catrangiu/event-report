@@ -100,7 +100,7 @@ export default {
           lat: null,
           lng: null
         },
-        image: ""
+        image_id: ""
       },
       filename: undefined,
       eventTypes: ["bla", "one", "two"]
@@ -119,17 +119,33 @@ export default {
     });
   },
   methods: {
-    onFileChange(e) {
+    async onFileChange(e) {
       var file = event.target.files[0];
       if (!file) return;
-      var reader = new FileReader();
-      reader.onload = e => {
-        this.event.image = e.target.result;
-        this.filename = file.name;
-      };
+      // var reader = new FileReader();
+      // reader.onload = e => {
+      //   this.event.image = e.target.result;
+      // };
 
-      reader.readAsDataURL(file);
-      console.log(file);
+      // reader.readAsDataURL(file);
+      // console.log(file);
+
+      this.filename = file.name;
+      const form = new FormData();
+      form.append("image", file, file.name);
+
+      const response = await this.$imgServiceApi({
+        method: "POST",
+        url: "/image/upload",
+        data: form,
+        headers: {
+          "content-type": `multipart/form-data; boundary=${form._boundary}`
+        }
+      });
+
+      if (response && response.data) {
+        this.event.image_id = response.data.image_id;
+      }
     },
     getBrowserLocation() {
       if (!navigator.geolocation) {
@@ -149,10 +165,16 @@ export default {
       this.$EventBus.$emit("pick-location-on-map");
     },
     async reportEvent() {
-      const { title, description, location } = this.event;
+      const { title, description, location, tag, image_id } = this.event;
       const { lat, lng } = location;
-      if (title.length < 3 || description.length < 10 || !lat || !lng) {
-        console.log(title, description, location)
+      if (
+        title.length < 3 ||
+        description.length < 10 ||
+        !lat ||
+        !lng ||
+        tag.length === 0 ||
+        !image_id
+      ) {
         return;
       }
       const result = await this.$api.post("/events", this.event);

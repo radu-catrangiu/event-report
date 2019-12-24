@@ -16,8 +16,8 @@ Vue.prototype.$ = $;
 Vue.prototype.$api = axios.create({
   baseURL: config.apiUrl
 });
-Vue.prototype.$authApi = axios.create({
-  baseURL: config.authApiUrl
+Vue.prototype.$imgServiceApi = axios.create({
+  baseURL: config.imgServiceApiUrl
 });
 
 new Vue({

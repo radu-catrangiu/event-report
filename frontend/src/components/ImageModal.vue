@@ -45,11 +45,12 @@ export default {
     }
   },
   mounted() {
-    this.$EventBus.$on("open-image-modal", (event) => {
-      // eslint-disable-next-line
+    this.$EventBus.$on("open-image-modal", async (event) => {
+      /* eslint-disable */
       console.log(navigator.userAgent)
       this.event = event;
       this.$("#imageModal").modal("show");
+      this.event.image = `http://localhost:8082/image/${event.image_id}`;
     });
   }
 };
