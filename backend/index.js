@@ -3,6 +3,7 @@ const app = require('express')();
 const json = require('body-parser').json;
 const cors = require('cors');
 const uuid = require('uuid').v4;
+const initModules = require('./modules');
 
 app.use(json());
 app.use(cors());
@@ -10,15 +11,34 @@ app.use(cors());
 const db = [];
 for (let i = 0; i < 10; i++) {
     db.push({
-      id: uuid(),
-      title: "New event bla bla",
-      resolved: Math.random() > 0.5,
-      location: {
-          lat: 44.434171620052254, lng:26.083084722016565
-      },
-      description: "Something happened at bla bla and people ARE DYING!!!"
+        id: uuid(),
+        title: "New event bla bla",
+        resolved: Math.random() > 0.5,
+        location: {
+            lat: 44.434171620052254, lng: 26.083084722016565
+        },
+        description: "Something happened at bla bla and people ARE DYING!!!"
     });
 }
+
+app.get('/auth/login', (request, response) => {
+    response.send({
+        id: uuid(),
+        admin: true,
+        login_token: uuid()
+    });
+});
+
+app.get('/auth/token', (request, response) => {
+    response.send({
+        id: uuid(),
+        admin: true
+    });
+});
+
+app.post('/auth', (request, response) => {
+    response.sendStatus(200);
+});
 
 app.get('/events', (request, response) => {
     response.setHeader('content-type', 'application/json');
@@ -35,6 +55,12 @@ app.post('/events', (request, response) => {
     response.send(event);
 });
 
-app.listen(config.port, () => {
-    console.log("Server started on port " + config.port);
-});
+
+async function start() {
+
+    app.listen(config.port, () => {
+        console.log("Server started on port " + config.port);
+    });
+}
+
+start();
