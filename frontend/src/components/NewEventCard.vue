@@ -122,13 +122,6 @@ export default {
     async onFileChange(e) {
       var file = event.target.files[0];
       if (!file) return;
-      // var reader = new FileReader();
-      // reader.onload = e => {
-      //   this.event.image = e.target.result;
-      // };
-
-      // reader.readAsDataURL(file);
-      // console.log(file);
 
       this.filename = file.name;
       const form = new FormData();
@@ -180,6 +173,7 @@ export default {
       const result = await this.$api.post("/events", this.event);
       const storedEvent = result.data;
       this.$parent.eventsList.unshift(storedEvent);
+      console.log(storedEvent);
       this.$EventBus.$emit("hide-point-marker");
     }
   }

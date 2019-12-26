@@ -46,8 +46,6 @@ export default {
   },
   mounted() {
     this.$EventBus.$on("open-image-modal", async (event) => {
-      /* eslint-disable */
-      console.log(navigator.userAgent)
       this.event = event;
       this.$("#imageModal").modal("show");
       this.event.image = `${this.$config.imgServiceApiUrl}/image/${event.image_id}`;

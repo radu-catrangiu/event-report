@@ -6,7 +6,7 @@ module.exports = {
         db: "event_report",
         user: "padawan",
         password: "123Parola",
-        collections: ['events', 'users', 'sessions']
+        collections: ['events', 'users', 'sessions', 'images']
     },
     mail: {
         user: 'project.event.report@gmail.com',

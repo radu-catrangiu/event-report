@@ -20,7 +20,7 @@
       style="max-height: 88vh;"
     >
       <div v-if="eventsList.length > 0">
-        <div v-for="event in eventsList" :key="event.id" :id="event.id">
+        <div v-for="event in eventsList" :key="event._id" :id="event._id">
           <event-card :event="event" :adminUser="adminUser"></event-card>
         </div>
       </div>
@@ -59,7 +59,7 @@ export default {
     });
 
     this.$EventBus.$on("marker-clicked", event => {
-      const elem = this.$(`#${event.id} .card-body`);
+      const elem = this.$(`#${event._id} .card-body`);
       const container = this.$("#list-container");
 
       if (elem.length == 0) {

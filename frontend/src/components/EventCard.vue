@@ -8,7 +8,7 @@
               v-if="adminUser"
               class="text-muted text-uppercase text-monospace"
               style="font-size: 9px;"
-            >{{event.id}}</span>
+            >{{event._id}}</span>
           </div>
           <div class="col-3 text-right">
             <span v-if="event.tag" class="badge badge-pill badge-warning text-uppercase">{{event.tag}}</span>

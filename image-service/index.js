@@ -24,6 +24,7 @@ app.post('/image/upload', upload.single("image"), async (request, response) => {
     const str = buffer.toString('base64');
     const image = {
         _id: uuid(),
+        expire_at: new Date(Date.now() + 5 * 60 * 1000),
         encoded: str
     };
 

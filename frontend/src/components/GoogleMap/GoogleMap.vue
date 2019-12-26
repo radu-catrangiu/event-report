@@ -26,6 +26,7 @@ export default {
     await this.loadMap();
 
     this.$EventBus.$on("add-point-on-map", event => {
+      console.log(event);
       const marker = new Google.maps.Marker({
         map: this.map
       });
@@ -34,7 +35,7 @@ export default {
       marker.addListener("click", () => {
         this.$EventBus.$emit("marker-clicked", event);
       });
-      this.points[event.id] = {
+      this.points[event._id] = {
         event,
         marker
       };

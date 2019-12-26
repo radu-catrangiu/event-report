@@ -7,11 +7,16 @@ function getMongoUrl(mongoConfig) {
 }
 
 async function init() {
-    let mongo = await MongoClient.connect(getMongoUrl(config.mongo));
+    const mongoUrl = getMongoUrl(config.mongo);
+    const mongoOpts = { useUnifiedTopology: true };
+    const mongo = await MongoClient.connect(mongoUrl, mongoOpts);
     const db = mongo.db();
     config.mongo.collections.forEach(collection => {
         db[collection] = db.collection(collection);
     });
+
+    db.images.createIndex({ expire_at: 1 }, { expireAfterSeconds: 0 });
+
     return { db };
 }
 
