@@ -195,11 +195,25 @@ export default {
         this.error = "You must fill all fields!";
         return;
       }
-      const result = await this.$api.post("/events", this.event);
-      const storedEvent = result.data;
-      this.$parent.eventsList.unshift(storedEvent);
-      console.log(storedEvent);
-      this.$EventBus.$emit("hide-point-marker");
+      try {
+        const result = await this.$api.post("/events", this.event);
+        const storedEvent = result.data;
+        this.$parent.eventsList.unshift(storedEvent);
+        this.$EventBus.$emit("hide-point-marker");
+        
+        this.event.title = "";
+        this.event.description = "";
+        this.event.location.lat = null;
+        this.event.location.lng = null;
+        this.event.tag = "";
+        this.event.image_id = "";
+        this.filename = undefined;
+        this.error = undefined;
+
+        this.$parent.showList = true;
+      } catch (error) {
+
+      }
     }
   }
 };
