@@ -21,18 +21,21 @@
           class="badge badge-pill badge-warning text-uppercase mb-3"
         >{{event.tag}}</span>
         <p class="card-text">{{event.description}}</p>
-        <div class="btn-group mb-4">
+        <div class="btn-group mb-1">
           <button class="btn btn-warning" @click="showEventImage">Show image</button>
           <button
             v-if="adminUser && !event.resolved"
             class="btn btn-success"
-            @click="resolveEvent"
+            @click="updateEvent(true)"
           >Resolve</button>
           <button
             v-if="adminUser && event.resolved"
             class="btn btn-secondary"
-            @click="unresolveEvent"
+            @click="updateEvent(false)"
           >Unresolve</button>
+        </div>
+        <div>
+          <button v-if="adminUser" class="btn btn-danger" @click="deleteEvent">Delete Event</button>
         </div>
       </div>
     </div>
@@ -46,17 +49,32 @@ export default {
   },
   props: {
     adminUser: Boolean,
-    event: Object
+    event: Object,
+    index: Number
   },
   methods: {
     showEventImage() {
       this.$EventBus.$emit("open-image-modal", this.event);
     },
-    resolveEvent() {
-      this.event.resolved = true;
+    async updateEvent(resolved) {
+      const loginToken = this.$cookies.get("login_token");
+      await this.$api.put(`/events/${this.event._id}`, {
+        resolved,
+        login_token: loginToken
+      });
+
+      this.event.resolved = resolved;
     },
-    unresolveEvent() {
-      this.event.resolved = false;
+    async deleteEvent() {
+      const loginToken = this.$cookies.get("login_token");
+      const result = await this.$api.delete(`/events/${this.event._id}`, {
+        params: {
+          login_token: loginToken
+        }
+      });
+      if (result.status === 200) {
+        this.$parent.eventsList.splice(this.index, 1);
+      }
     }
   }
 };

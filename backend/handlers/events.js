@@ -48,7 +48,36 @@ async function post(env, request, response) {
     response.send(event);
 }
 
+async function put(env, request, response) {
+    const { id } = request.params;
+    const { login_token: loginToken, resolved } = request.body;
+    const session = await env.db.sessions.findOne({ _id: loginToken });
+    if (!session || !session.admin) {
+        return response.sendStatus(403);
+    }
+
+    await env.db.events.updateOne({ _id: id }, { $set: { resolved } });
+
+    return response.sendStatus(200);
+}
+
+async function deleteEvent(env, request, response) {
+    const { id } = request.params;
+    const { login_token: loginToken } = request.query;
+    const session = await env.db.sessions.findOne({ _id: loginToken });
+    if (!session || !session.admin) {
+        return response.sendStatus(403);
+    }
+
+    await env.db.events.deleteOne({ _id: id });
+    await env.db.images.deleteOne({ event_id: id });
+
+    return response.sendStatus(200);
+}
+
 module.exports = {
     get,
-    post
+    post,
+    put,
+    deleteEvent
 };

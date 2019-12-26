@@ -17,6 +17,8 @@ async function start() {
 
     app.get('/events', (req, res) => handlers.events.get(env, req, res));
     app.post('/events', (req, res) => handlers.events.post(env, req, res));
+    app.put('/events/:id', (req, res) => handlers.events.put(env, req, res));
+    app.delete('/events/:id', (req, res) => handlers.events.deleteEvent(env, req, res));
 
     app.listen(config.port, () => {
         console.log("Server started on port " + config.port);

@@ -20,8 +20,8 @@
       style="max-height: 88vh;"
     >
       <div v-if="eventsList.length > 0">
-        <div v-for="event in eventsList" :key="event._id" :id="event._id">
-          <event-card :event="event" :adminUser="adminUser"></event-card>
+        <div v-for="(event, index) in eventsList" :key="event._id" :id="event._id">
+          <event-card :event="event" :index="index" :adminUser="adminUser"></event-card>
         </div>
       </div>
       <div v-else class="my-5">No events reported</div>
