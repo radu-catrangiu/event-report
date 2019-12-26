@@ -20,8 +20,6 @@ export default {
     },
     async mounted() {
         this.$store.subscribe(mutation => {
-            /* eslint-disable */
-            console.log(mutation);
             if (mutation.type !== "user") return;
             this.user = this.$store.getters.user;
     });
@@ -39,7 +37,8 @@ export default {
                 }
 
             } catch (error) {
-                console.log(error);
+                // eslint-disable-next-line
+                console.error(error);
                 this.$store.commit("user", null);
                 this.$cookies.remove("login_token");
             }
