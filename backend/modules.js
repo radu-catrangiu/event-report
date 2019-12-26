@@ -32,9 +32,9 @@ const mailSubjectTemplate = handlebars.compile(
     '[EventReport] New Event `{{title}}`'
 );
 const mailTemplate = handlebars.compile(
-    `<h1>{{title}}</h1>
-\   <span>Type:</span> <h4>{{tag}}</h4>
-\   <span>Description:</span> <p>{{description}}</p>
+    `<b><h1>{{title}}</h1></b>
+\   <i>Type:</i> <b><h4>{{tag}}</h4></b>
+\   <i>Description:</i> <p>{{description}}</p>
 \   <h5>Check platform for more details!</h5>`
 );
 
