@@ -21,11 +21,11 @@ app.use(cors());
 
 app.post('/image/upload', upload.single("image"), async (request, response) => {
     const { buffer } = request.file;
-    const str = buffer.toString('base64');
+    const encoded = buffer.toString('base64');
     const image = {
         _id: uuid(),
         expire_at: new Date(Date.now() + 5 * 60 * 1000),
-        encoded: str
+        encoded
     };
 
     await db.images.insertOne(image);
