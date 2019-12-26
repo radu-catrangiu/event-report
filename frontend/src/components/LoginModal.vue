@@ -32,10 +32,11 @@
               id="emailHelp"
               class="form-text text-muted"
             >We'll never share your data with anyone else.</small>
+            <div class="text-danger mt-3" v-if="error">ERROR: {{error}}</div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-warning" @click="register">Register</button>
+          <!-- <button type="button" class="btn btn-warning" @click="register">Register</button> -->
           <button type="button" class="btn btn-primary" @click="login">Log In</button>
         </div>
       </div>
@@ -49,33 +50,38 @@ export default {
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      error: undefined
     };
   },
   methods: {
     async login() {
       try {
+        if (this.email.length < 3 || this.password.length < 3) {
+          this.error = "Email and password should be longer than 3 characters!";
+          return;
+        }
+
         const result = await this.$api.get("/auth/login", {
           params: {
             email: this.email,
             password: this.password
           }
         });
-  
+
         if (result.status === 200 && result.data) {
           const loginToken = result.data.login_token;
           this.$cookies.set("login_token", loginToken);
           this.$store.commit("user", result.data);
-        } 
+        }
+        this.$("#loginModal").modal("hide");
       } catch (error) {
-        // eslint-disable-next-line
-        console.log(error);
+        if (error.response.status === 403) {
+          this.error = "Wrong username or password";
+        }
         this.$store.commit("user", null);
         this.$cookies.remove("login_token");
       }
-      
-
-      this.$("#loginModal").modal("hide");
     },
     async register() {
       this.$("#loginModal").modal("hide");
