@@ -19,17 +19,18 @@
           </button>
         </div>
         <div class="modal-body text-left">
-          <!-- {{event}} -->
           <h5>Description:</h5>
           <p>{{event.description}}</p>
           <h5>Report Date:</h5>
           <p>{{event.report_date}}</p>
           <h5>Image:</h5>
-          <img v-if="event.image" class="img-fluid" :src="event.image"/>
+          <img v-if="event.image" class="img-fluid" :src="event.image" @load="show = true" v-show="show"/>
+          <div v-if="!show">
+            Loading Image...
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Understood</button>
         </div>
       </div>
     </div>
@@ -41,10 +42,15 @@ export default {
   name: "ImageModal",
   data() {
     return {
-      event: {}
+      event: {},
+      show: false
     }
   },
   mounted() {
+    this.$("#imageModal").on("hide.bs.modal", () => {
+      this.event = {};
+      this.show = false;
+    });
     this.$EventBus.$on("open-image-modal", async (event) => {
       this.event = event;
       this.$("#imageModal").modal("show");
