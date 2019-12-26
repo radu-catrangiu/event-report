@@ -2,19 +2,12 @@
   <div class="event-card my-2">
     <div class="card">
       <div class="card-body">
-        <div class="row">
-          <div class="col-9 text-left">
-            <span
-              v-if="adminUser"
-              class="text-muted text-uppercase text-monospace"
-              style="font-size: 9px;"
-            >{{event._id}}</span>
-          </div>
-          <div class="col-3 text-right">
-            <span v-if="event.tag" class="badge badge-pill badge-warning text-uppercase">{{event.tag}}</span>
-          </div>
-        </div>
-        <h5 class="card-title">{{event.title}}</h5>
+        <span
+          v-if="adminUser"
+          class="text-muted text-uppercase text-monospace"
+          style="font-size: 9px;"
+        >{{event._id}}</span>
+        <h5 class="card-title mt-1">{{event.title}}</h5>
         <h6
           class="card-subtitle mb-2"
           :class="{ 
@@ -22,6 +15,11 @@
                 'text-danger': !event.resolved,
             }"
         >{{event.resolved ? 'Resolved' : 'Unresolved'}}</h6>
+
+        <span
+          v-if="event.tag"
+          class="badge badge-pill badge-warning text-uppercase mb-3"
+        >{{event.tag}}</span>
         <p class="card-text">{{event.description}}</p>
         <div class="btn-group mb-4">
           <button class="btn btn-warning" @click="showEventImage">Show image</button>
