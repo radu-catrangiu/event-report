@@ -103,7 +103,7 @@ export default {
         image_id: ""
       },
       filename: undefined,
-      eventTypes: ["bla", "one", "two"]
+      eventTypes: ["accident", "incendiu", "inundatie", "furtuna", "deplasare teren", "fenomen meteorologic extrem"]
     };
   },
   filters: {
