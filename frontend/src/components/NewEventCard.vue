@@ -69,7 +69,7 @@
             disabled
           />
         </div>
-
+        <div class="text-danger mb-2" v-if="error">ERROR: {{error}}</div>
         <button type="button" class="btn btn-danger btn-lg" @click="reportEvent">REPORT EVENT</button>
       </div>
     </div>
@@ -103,7 +103,15 @@ export default {
         image_id: ""
       },
       filename: undefined,
-      eventTypes: ["accident", "incendiu", "inundatie", "furtuna", "deplasare teren", "fenomen meteorologic extrem"]
+      error: undefined,
+      eventTypes: [
+        "accident",
+        "incendiu",
+        "inundatie",
+        "furtuna",
+        "deplasare teren",
+        "fenomen meteorologic extrem"
+      ]
     };
   },
   filters: {
@@ -123,21 +131,36 @@ export default {
       var file = event.target.files[0];
       if (!file) return;
 
+      if (file.type.split('/')[0] !== 'image') {
+        this.error = "You must upload an image file!"
+        return;
+      }
+
       this.filename = file.name;
       const form = new FormData();
       form.append("image", file, file.name);
 
-      const response = await this.$imgServiceApi({
-        method: "POST",
-        url: "/image/upload",
-        data: form,
-        headers: {
-          "content-type": `multipart/form-data; boundary=${form._boundary}`
-        }
-      });
+      try {
+        const response = await this.$imgServiceApi({
+          method: "POST",
+          url: "/image/upload",
+          data: form,
+          headers: {
+            "content-type": `multipart/form-data; boundary=${form._boundary}`
+          }
+        });
 
-      if (response && response.data) {
-        this.event.image_id = response.data.image_id;
+        if (response && response.status === 200 && response.data) {
+          this.event.image_id = response.data.image_id;
+        }
+      } catch (error) {
+        console.debug(error.response);
+        if (error.response.status === 403) {
+          this.error = error.response.data.message;
+        } else {
+          this.error = "You must upload an image file!";
+        }
+        this.filename = undefined;
       }
     },
     getBrowserLocation() {
@@ -168,6 +191,8 @@ export default {
         tag.length === 0 ||
         !image_id
       ) {
+        console.log(title, description, lat, lng, tag, image_id);
+        this.error = "You must fill all fields!";
         return;
       }
       const result = await this.$api.post("/events", this.event);
