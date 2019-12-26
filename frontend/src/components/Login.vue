@@ -27,11 +27,23 @@ export default {
     });
         const loginToken = this.$cookies.get('login_token');
         if(loginToken) {
-            const result = await this.$api.get('/auth/token');
-            if (result.status === 200, result.data) {
-                this.$store.commit('user', result.data);
-                this.user = result.data;
+            try {
+                const result = await this.$api.get('/auth/token', { 
+                    params: {
+                        login_token: loginToken
+                    }
+                });
+                if (result.status === 200, result.data) {
+                    this.$store.commit('user', result.data);
+                    this.user = result.data;
+                }
+
+            } catch (error) {
+                console.log(error);
+                this.$store.commit("user", null);
+                this.$cookies.remove("login_token");
             }
+            
         }
     },
     methods: {

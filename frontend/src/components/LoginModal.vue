@@ -50,25 +50,34 @@ export default {
     return {
       email: "",
       password: ""
-    }
+    };
   },
   methods: {
     async login() {
-      const result = await this.$api.get('/auth/login', {
-        email: this.email,
-        password: this.password
-      });
-
-      if (result.status === 200 && result.data) {
-        const loginToken = result.data.login_token;
-        this.$cookies.set('login_token', loginToken);
-        this.$store.commit('user', result.data);
+      try {
+        const result = await this.$api.get("/auth/login", {
+          params: {
+            email: this.email,
+            password: this.password
+          }
+        });
+  
+        if (result.status === 200 && result.data) {
+          const loginToken = result.data.login_token;
+          this.$cookies.set("login_token", loginToken);
+          this.$store.commit("user", result.data);
+        } 
+      } catch (error) {
+        // eslint-disable-next-line
+        console.log(error);
+        this.$store.commit("user", null);
+        this.$cookies.remove("login_token");
       }
+      
 
       this.$("#loginModal").modal("hide");
     },
     async register() {
-
       this.$("#loginModal").modal("hide");
     }
   },
