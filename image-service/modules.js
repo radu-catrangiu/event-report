@@ -16,6 +16,7 @@ async function init() {
     });
 
     db.images.createIndex({ expire_at: 1 }, { expireAfterSeconds: 0 });
+    db.images.createIndex({ event_id: 1 }, { unique: true });
 
     return { db };
 }
