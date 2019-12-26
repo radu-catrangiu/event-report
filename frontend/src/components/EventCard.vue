@@ -73,6 +73,7 @@ export default {
         }
       });
       if (result.status === 200) {
+        this.$EventBus.$emit("delete-point-from-map", this.event);
         this.$parent.eventsList.splice(this.index, 1);
       }
     }

@@ -40,6 +40,11 @@ export default {
       };
     });
 
+    this.$EventBus.$on("delete-point-from-map", event => {
+      this.points[event._id].marker.setMap(null);
+      delete this.points[event._id];
+    });
+
     this.$EventBus.$on("point-browser-location", location => {
       this.pointMarker.setPosition(location);
       this.pointMarker.setVisible(true);
