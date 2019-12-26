@@ -6,6 +6,10 @@ module.exports = {
         db: "event_report",
         user: "padawan",
         password: "123Parola",
-        collections: ['events', 'users']
+        collections: ['events', 'users', 'sessions']
+    },
+    mail: {
+        user: 'project.event.report@gmail.com',
+        pass: '123Parola!'
     }
 };
