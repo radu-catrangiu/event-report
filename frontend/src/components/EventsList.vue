@@ -66,6 +66,7 @@ export default {
         return;
       }
 
+      this.showList = true;
       elem.addClass("highlighted");
       container.animate(
         {
