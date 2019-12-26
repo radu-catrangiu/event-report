@@ -10,17 +10,23 @@ const initModules = require('./modules');
 let db = null;
 
 const upload = multer({
-    fileFilter(req, file, callback) {
-        return callback(null, true);
-    },
     storage: multer.memoryStorage()
 });
 
 app.use(json());
 app.use(cors());
 
-app.post('/image/upload', upload.single("image"), async (request, response) => {
-    const { buffer } = request.file;
+app.post('/image/upload', upload.single('image'), async (request, response) => {
+    response.setHeader('content-type', 'application/json');
+
+    const { file } = request;
+    const { buffer, mimetype } = file;
+
+    if (mimetype.split('/')[0] !== 'image') {
+        response.status(403);
+        return response.send({ message: 'File should be an image!' });
+    }
+
     const encoded = buffer.toString('base64');
     const image = {
         _id: uuid(),
@@ -30,8 +36,7 @@ app.post('/image/upload', upload.single("image"), async (request, response) => {
 
     await db.images.insertOne(image);
 
-    response.setHeader('content-type', 'application/json');
-    response.send({ image_id: image._id });
+    return response.send({ image_id: image._id });
 });
 
 app.get('/image/:id', async (request, response) => {
@@ -46,7 +51,7 @@ async function start() {
     const modules = await initModules();
     db = modules.db;
     app.listen(config.port, () => {
-        console.log("Server started on port " + config.port);
+        console.log('Server started on port ' + config.port);
     });
 }
 
