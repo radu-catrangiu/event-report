@@ -16,9 +16,9 @@ async function post(env, request, response) {
         _id: uuid(),
         title,
         description,
-        tag,
+        tag: String(tag).toLowerCase(),
         location,
-        image_id,
+        image_id: String(image_id).toLowerCase(),
         resolved: false,
         report_date: new Date()
     };
