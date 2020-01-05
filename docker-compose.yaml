@@ -5,6 +5,7 @@ services:
         build:
             context: ./frontend/
             dockerfile: Dockerfile
+        image: cc-frontend-rcatrangiu:latest
         container_name: frontend
         networks:
             - net
@@ -20,6 +21,7 @@ services:
         build: 
             context: ./backend/
             dockerfile: Dockerfile
+        image: cc-backend-rcatrangiu:latest
         container_name: backend
         networks:
             - net
@@ -33,6 +35,7 @@ services:
         build:
             context: ./image-service/
             dockerfile: Dockerfile
+        image: cc-image-service-rcatrangiu:latest
         container_name: image-service
         networks:
             - net
