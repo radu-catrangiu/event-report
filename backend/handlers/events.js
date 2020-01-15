@@ -23,17 +23,17 @@ async function post(env, request, response) {
         report_date: new Date()
     };
 
+    const imageCount = await env.db.images.count({ _id: image_id });
+    if (imageCount === 0) {
+        return response.sendStatus(404);
+    }
+
     const findQuery = { admin: true };
     const findOpts = { projection: { email: true } };
     const admins = await env.db.users.find(findQuery, findOpts).toArray();
     admins.forEach(admin => {
         env.sendMail(admin, event);
     });
-
-    const imageCount = await env.db.images.count({ _id: image_id });
-    if (imageCount === 0) {
-        return response.sendStatus(404);
-    }
 
     await env.db.events.insertOne(event);
     await env.db.images.updateOne(
